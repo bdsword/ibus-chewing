@@ -38,16 +38,19 @@ IBusChewingSystrayIcon
 				    gpointer rightClickData, ...)
 {
     va_list argList;
-    const gchar *iconFile;
+    const gchar *iconFileName;
+    GIcon *icon;
     GPtrArray *fileArray = g_ptr_array_new();
     va_start(argList, rightClickData);
     for (gint i = 0; i < IBUS_CHEWING_SYSTRAY_ICON_COUNT_MAX; i++) {
-	iconFile = va_arg(argList, const gchar *);
-	if (iconFile == NULL) {
-	    break;
-	}
-	g_ptr_array_add(fileArray, (gpointer) iconFile);
-
+    	iconFileName = va_arg(argList, const gchar *);
+    	if (iconFileName == NULL) {
+    	    break;
+    	}
+        GFile * iconFile = g_file_new_for_path(iconFileName);
+        icon = g_file_icon_new(iconFile);
+    	g_ptr_array_add(fileArray, (gpointer) icon);
+        g_object_unref(iconFile);
     }
     va_end(argList);
 
@@ -98,8 +101,8 @@ void ibus_chewing_systray_icon_set_visible(IBusChewingSystrayIcon *
 
 void ibus_chewing_systray_icon_update(IBusChewingSystrayIcon * self)
 {
-    gtk_status_icon_set_from_file(self->icon,
-				  ibus_chewing_systray_icon_get_icon_file
+    gtk_status_icon_set_from_gicon(self->icon,
+				  ibus_chewing_systray_icon_get_icon
 				  (self, self->value));
     ibus_chewing_systray_icon_set_visible(self, TRUE);
 }

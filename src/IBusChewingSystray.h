@@ -52,7 +52,7 @@ typedef enum {
     IBUS_CHEWING_SYSTRAY_FULL_HALF_SHAPE_FLAG = 2,
 } IBusChewingSystrayFlag;
 
-/** 
+/**
  * IBusChewingSystrayIcon:
  * Systray Icon for ibus-chewin
  *
@@ -83,7 +83,7 @@ void ibus_chewing_systray_icon_free(IBusChewingSystrayIcon * self);
  * @self: An IBusChewingSystrayIcon
  * @index: File index that starts from 0
  */
-#define ibus_chewing_systray_icon_get_icon_file(self, index) (const gchar *) g_ptr_array_index(self->iconFileArray,index)
+#define ibus_chewing_systray_icon_get_icon(self, index) (const GIcon *) g_ptr_array_index(self->iconFileArray,index)
 
 void ibus_chewing_systray_icon_set_value(IBusChewingSystrayIcon *
 					 self, guint value);
